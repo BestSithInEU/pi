@@ -1142,6 +1142,19 @@ bar`,
 			assert.ok(precedingChunk.includes("\x1b[1m"), `Should re-apply bold for h2: ${precedingChunk}`);
 			assert.ok(precedingChunk.includes("\x1b[36m"), `Should re-apply cyan for h2: ${precedingChunk}`);
 		});
+
+		it("should visually differentiate h2, h3, and h4", () => {
+			const h2 = new Markdown("## H2", 0, 0, defaultMarkdownTheme).render(80).join("\n");
+			const h3 = new Markdown("### H3", 0, 0, defaultMarkdownTheme).render(80).join("\n");
+			const h4 = new Markdown("#### H4", 0, 0, defaultMarkdownTheme).render(80).join("\n");
+
+			assert.ok(h2.includes("\x1b[1m"), `H2 should be bold: ${h2}`);
+			assert.ok(!h2.includes("\x1b[3m"), `H2 should not be italic: ${h2}`);
+			assert.ok(h3.includes("\x1b[1m"), `H3 should be bold: ${h3}`);
+			assert.ok(h3.includes("\x1b[3m"), `H3 should be italic: ${h3}`);
+			assert.ok(!h4.includes("\x1b[3m"), `H4 should not be italic: ${h4}`);
+			assert.ok(h4.includes("\x1b[4m"), `H4 should be underline: ${h4}`);
+		});
 	});
 
 	describe("Strikethrough syntax", () => {

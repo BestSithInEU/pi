@@ -308,8 +308,12 @@ export class Markdown implements Component {
 				let headingStyleFn: (text: string) => string;
 				if (headingLevel === 1) {
 					headingStyleFn = (text: string) => this.theme.heading(this.theme.bold(this.theme.underline(text)));
-				} else {
+				} else if (headingLevel === 2) {
 					headingStyleFn = (text: string) => this.theme.heading(this.theme.bold(text));
+				} else if (headingLevel === 3) {
+					headingStyleFn = (text: string) => this.theme.heading(this.theme.bold(this.theme.italic(text)));
+				} else {
+					headingStyleFn = (text: string) => this.theme.heading(this.theme.underline(text));
 				}
 
 				const headingStyleContext: InlineStyleContext = {
